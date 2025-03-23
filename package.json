@@ -1,0 +1,198 @@
+{
+    "name": "secret-toolkit-vscode",
+    "displayName": "secret-toolkit-vscode",
+    "description": "This Toolkit provides various tools for working with secrets, password, encryption-keys. Customizable with user-defined presets. Generate passwords, calculate password entropy, and more.",
+    "license": "MIT",
+    "version": "0.0.3",
+    "engines": {
+        "vscode": "^1.98.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "publisher": "hbrennhaeuser",
+    "activationEvents": [],
+    "main": "./out/extension.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/hbrennhaeuser/secret-toolkit-vscode.git"
+      },
+    "contributes": {
+        "commands": [
+            {
+                "command": "secret-toolkit-vscode.passwordGeneratorInsert",
+                "title": "Secret-Toolkit: Generate new secret (Insert at cursor)"
+            },
+            {
+                "command": "secret-toolkit-vscode.passwordGeneratorCopy",
+                "title": "Secret-Toolkit: Generate new secret (Copy to clipboard)"
+            },
+            {
+                "command": "secret-toolkit-vscode.passwordEntropy",
+                "title": "Secret-Toolkit: Test password entropy"
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "Secret-Toolkit",
+            "properties": {
+                "secret-toolkit-vscode.presets": {
+                    "type": "array",
+                    "description": "A List of presets",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "description": "Unique id/name for the preset (required)"
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "Preset description"
+                            },
+                            "length": {
+                                "type": "number",
+                                "description": "Minimum length of the generated password (0 to disable)"
+                            },
+                            "defaultLength": {
+                                "type": "number",
+                                "description": "If length is 0 the user is prompted for length input. This sets the default length."
+                            },
+                            "bytes": {
+                                "type": "number",
+                                "description": "Bytes used for hex generation"
+                            },
+                            "defaultBytes": {
+                                "type": "number",
+                                "description": "TODO"
+                            },
+                            "type": {
+                                "type": "string",
+                                "description": "Type (password, passphrase, hex)"
+                            },
+                            "lowercase": {
+                                "type": "number",
+                                "description": "Minimum number of lowercase characters (0 to disable)"
+                            },
+                            "uppercase": {
+                                "type": "number",
+                                "description": "Minimum number of uppercase characters (0 to disable)"
+                            },
+                            "numbers": {
+                                "type": "number",
+                                "description": "Minimum number of numeric characters (0 to disable)"
+                            },
+                            "specialReduced": {
+                                "type": "number",
+                                "description": "Minimum number of reduced special characters (0 to disable)"
+                            },
+                            "specialAll": {
+                                "type": "number",
+                                "description": "Minimum number of all special characters (0 to disable)"
+                            },
+                            "custom": {
+                                "type": "number",
+                                "description": "Minimum number of custom characters (0 to disable, requires customCharacters to be defined)"
+                            },
+                            "customCharacters": {
+                                "type": "string",
+                                "description": "Custom characters to include in the password"
+                            },
+                            "avoidAmbiguous": {
+                                "type": "boolean",
+                                "description": "Avoid ambiguous characters (does not apply to customCharacters)"
+                            },
+                            "encode": {
+                                "type": "string",
+                                "description": "Encoding method for the password (base64, js-crypto-compatible method like md5, leave empty to disable)"
+                            }
+                        }
+                    },
+                    "default": [
+                        {
+                            "id": "ESPhome API Encryption Key",
+                            "description": "",
+                            "type": "password",
+                            "length": 32,
+                            "lowercase": 1,
+                            "uppercase": 1,
+                            "numbers": 1,
+                            "customCharacters": "",
+                            "avoidAmbiguous": true,
+                            "encode": "base64"
+                        },
+                        {
+                            "id": "ESPhome OTA Password",
+                            "description": "",
+                            "type": "hex",
+                            "bytes": 32
+                        },
+                        {
+                            "id": "01 - Low strength",
+                            "description": "Lowercase and numbers",
+                            "type": "password",
+                            "defaultLength": 16,
+                            "lowercase": 1,
+                            "numbers": 1,
+                            "avoidAmbiguous": true
+                        },
+                        {
+                            "id": "02 - Better strength",
+                            "description": "Lowercase, uppercase, and numbers",
+                            "type": "password",
+                            "defaultLength": 24,
+                            "lowercase": 1,
+                            "uppercase": 1,
+                            "numbers": 1,
+                            "avoidAmbiguous": true
+                        },
+                        {
+                            "id": "03 - Recommended strength",
+                            "description": "Lowercase, uppercase, numbers, and reduced special characters",
+                            "type": "password",
+                            "defaultLength": 24,
+                            "lowercase": 1,
+                            "uppercase": 1,
+                            "numbers": 1,
+                            "specialReduced": 2,
+                            "avoidAmbiguous": true
+                        },
+                        {
+                            "id": "04 - Best strength",
+                            "description": "Lenght: 32 characters, upper+lower+numbers+special",
+                            "type": "password",
+                            "defaultLength": 32,
+                            "lowercase": 2,
+                            "uppercase": 2,
+                            "numbers": 2,
+                            "specialAll": 4,
+                            "avoidAmbiguous": true
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile && npm run lint",
+        "lint": "eslint src",
+        "test": "vscode-test"
+    },
+    "devDependencies": {
+        "@types/mocha": "^10.0.10",
+        "@types/node": "20.x",
+        "@types/vscode": "^1.98.0",
+        "@typescript-eslint/eslint-plugin": "^8.25.0",
+        "@typescript-eslint/parser": "^8.25.0",
+        "@vscode/test-cli": "^0.0.10",
+        "@vscode/test-electron": "^2.4.1",
+        "eslint": "^9.21.0",
+        "typescript": "^5.7.3"
+    },
+    "dependencies": {
+        "fast-password-entropy": "1.1.x"
+    }
+}
