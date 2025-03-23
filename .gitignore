@@ -3,7 +3,8 @@ dist
 node_modules
 local/
 vsc-extension-quickstart.md
-
+NOTES.txt
+resources/icon.svg
 
 
 
