@@ -1,12 +1,20 @@
 {
     "name": "secret-toolkit-vscode",
-    "displayName": "secret-toolkit-vscode",
+    "displayName": "Secret Toolkit (Password Generator and more)",
     "description": "This Toolkit provides various tools for working with secrets, password, encryption-keys. Customizable with user-defined presets. Generate passwords, calculate password entropy, and more.",
     "license": "MIT",
-    "version": "0.0.3",
+    "version": "0.0.4",
+    "icon": "resources/icon.png",
     "engines": {
         "vscode": "^1.98.0"
     },
+    "keywords": [
+        "password",
+        "entropy",
+        "secret",
+        "preset",
+        "encryption-key"
+      ],
     "categories": [
         "Other"
     ],
